@@ -42,14 +42,16 @@ function App() {
   async function fetchBalance(account) {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract('YOUR_CONTRACT_ADDRESS', Wallet.abi, signer);
-      const balance = await contract.getBalance();
-      setBalance(ethers.utils.formatEther(balance));
+      const balance = await provider.getBalance(account);
+      const balanceInEther = ethers.utils.formatEther(balance);
+      console.log(`Balance: ${balanceInEther} ETH`);
+      // Optionally, update your state or UI with the balance
+      setBalance(balanceInEther);
     } catch (error) {
       console.error('Error fetching balance:', error);
     }
   }
+  
 
   async function sendEther() {
     setError('');
